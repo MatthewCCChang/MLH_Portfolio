@@ -11,3 +11,25 @@ function toggle_accordion(button) {
     panel.style.display = "flex";
   }
 }
+
+console.log("called");
+const form = document.getElementById('form');
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const payload = new FormData(form);
+  console.log([...payload]);
+  fetch('http://127.0.0.1:5000/api/timeline_post',{
+    method: 'POST',
+    body: payload,
+  }).then(res => res.json()).then(
+    data => {
+      const newDiv = document.createElement("div");
+      const head = document.createTextNode(`${data.name}: ${data.created_at}`);
+      const details = document.createTextNode(`${data.content}`);
+      newDiv.appendChild(head);
+      newDiv.appendChild(details);
+      const parent = document.getElementById('submission-form');
+      parent.appendChild(newDiv);
+    }
+  )
+})

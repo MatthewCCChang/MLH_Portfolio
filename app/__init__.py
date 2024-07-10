@@ -39,6 +39,15 @@ def vh():
 def hobbies():
     return render_template('hobbies.html', title="Hobbies", url=os.getenv("URL"))
 
+@app.route('/testing')
+def tt():
+    return render_template('mc.html', title="testing")
+
+@app.route('/timeline')
+def timelines():
+    print("accessed")
+    return render_template('timeline.html',title="Timeline")
+
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
     name = request.form['name']
@@ -66,6 +75,3 @@ def del_timeline_post():
     return "Deleted Successfully"
 
 
-@app.route('/timeline')
-def timeline():
-    return render_template('timeline.html',title="Timeline")
