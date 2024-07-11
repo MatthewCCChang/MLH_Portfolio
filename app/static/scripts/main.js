@@ -18,7 +18,7 @@ form.addEventListener('submit', function(e) {
   e.preventDefault();
   const payload = new FormData(form);
   console.log([...payload]);
-  fetch('http://127.0.0.1:5000/api/timeline_post',{
+  fetch('/api/timeline_post',{
     method: 'POST',
     body: payload,
   }).then(res => res.json()).then(
