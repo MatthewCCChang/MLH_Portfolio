@@ -54,3 +54,57 @@ class AppTestCase(unittest.TestCase):
 		json = response.get_json()
 		assert "timeline_posts" in json
 		assert len(json["timeline_posts"]) == 0
+
+		# Tests for adding posts
+		response = self.client.post("/api/timeline_post",
+															data={
+																"name": "Matthew Chang",
+																"email": "matthewchang@gmail.com",
+																"content": "Hello world, Matthew!"
+															})
+		print(response.status_code)
+		assert response.status_code == 200
+		assert response.is_json
+		json = response.get_json()
+		assert json["id"] == 1
+
+		# Test for posts is on db after adding post
+		response = self.client.get("/api/timeline_post")
+		assert response.status_code == 200
+		assert response.is_json
+		json = response.get_json()
+		assert "timeline_posts" in json
+		assert len(json["timeline_posts"]) == 1
+		assert json["timeline_posts"][0]["name"] == "Matthew Chang"
+		assert json["timeline_posts"][0]["email"] == "matthewchang@gmail.com"
+		assert json["timeline_posts"][0]["content"] == "Hello world, Matthew!"
+
+	def test_malformed_timeline_post(self):
+		# POST request missing name
+		response = self.client.post("/api/timline_post", data={
+			"email": "john@example.com",
+			"content": "Hello World, I'm John!"
+		})
+		assert response.status_code == 400
+		html = response.get_data(as_text=True)
+		assert "Invalid name" in html
+
+		# POST request with empty content
+		response = self.client.post("/api/timeline_post", data={
+			"name": "John Doe",
+			"email": "john@example.com",
+			"content": ""
+		})
+		assert response.status_code == 400
+		html = response.get_data(as_text=True)
+		assert "Invalid content" in html
+
+		# POST request with malformed email
+		response = self.client.post("/api/timeline_post", data={
+			"name": "John Doe",
+			"email": "not-an-email",
+			"content": "Hello World, I'm John!"
+		})
+		assert response.status_code == 400
+		html = response.get_data(as_text=True)
+		assert "Invalid content" in html
