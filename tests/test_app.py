@@ -14,6 +14,11 @@ class AppTestCase(unittest.TestCase):
 		html = response.get_data(as_text=True)
 		assert "<title>MLH Fellows</title>" in html
 
+		# Check for headers
+		assert "Vuong Ho" in html
+		assert "Matthew Chang" in html
+		assert "Hobbies" in html
+
 	def test_MatthewChang(self):
 		response = self.client.get("/MatthewChang")
 		assert response.status_code == 200
@@ -30,6 +35,17 @@ class AppTestCase(unittest.TestCase):
 		assert "<title>Vuong Ho</title>" in html
 
 		assert "University of Rochester" in html
+
+
+	def test_hobbies(self):
+		response = self.client.get("/Hobbies")
+		assert response.status_code == 200
+		html = response.get_data(as_text=True)
+		assert "<title>Hobbies</title>" in html
+
+		# Check if both hobby section is there
+		assert "Matthew's Hobbies" in html
+		assert "Vuong's Hobbies" in html
 
 	def test_timeline(self):
 		response = self.client.get("/api/timeline_post")
