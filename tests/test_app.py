@@ -14,6 +14,22 @@ class AppTestCase(unittest.TestCase):
 		html = response.get_data(as_text=True)
 		assert "<title>MLH Fellows</title>" in html
 
+	def test_MatthewChang(self):
+		response = self.client.get("/MatthewChang")
+		assert response.status_code == 200
+		html = response.get_data(as_text=True)
+		assert "<title>Matthew Chang</title>" in html
+
+		assert "University of California, Irvine" in html
+
+
+	def test_VuongHo(self):
+		response = self.client.get("/VuongHo")
+		assert response.status_code == 200
+		html = response.get_data(as_text=True)
+		assert "<title>Vuong Ho</title>" in html
+
+		assert "University of Rochester" in html
 
 	def test_timeline(self):
 		response = self.client.get("/api/timeline_post")
