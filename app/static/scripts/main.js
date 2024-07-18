@@ -21,15 +21,25 @@ form.addEventListener('submit', function(e) {
   fetch('/api/timeline_post',{
     method: 'POST',
     body: payload,
-  }).then(res => res.json()).then(
+  }).then(res => res.json()
+    ).then(
     data => {
-      const newDiv = document.createElement("div");
-      const head = document.createTextNode(`${data.name}: ${data.created_at}`);
-      const details = document.createTextNode(`${data.content}`);
-      newDiv.appendChild(head);
-      newDiv.appendChild(details);
-      const parent = document.getElementById('submission-form');
-      parent.appendChild(newDiv);
+      console.log(data);
+      if ('error' in data){
+        const parent = document.getElementById("error");
+        parent.innerHTML = '';
+        const text = document.createTextNode(`Error: ${data.error}`);
+        parent.appendChild(text);
+      }else{
+        const newDiv = document.createElement("div");
+        const head = document.createTextNode(`${data.name}: ${data.created_at}`);
+        const details = document.createTextNode(`${data.content}`);
+        newDiv.appendChild(head);
+        newDiv.appendChild(details);
+        const parent = document.getElementById('submission-form');
+        parent.appendChild(newDiv);
+      }
+      
     }
   )
 })

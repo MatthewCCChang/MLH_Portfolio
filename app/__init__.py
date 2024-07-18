@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 from peewee import *
 from playhouse.shortcuts import model_to_dict
@@ -54,9 +54,15 @@ def timelines():
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
-    name = request.form['name']
-    email = request.form['email']
-    content = request.form['content']
+    name = request.form.get('name','')
+    email = request.form.get('email','')
+    content = request.form.get('content','')
+    if name == '':
+        return jsonify({'error':'Invalid name'}), 400
+    elif '@' not in email or email == '':
+        return jsonify({'error':'Invalid email'}), 400
+    elif content == '':
+        return jsonify({'error':'Invalid content'}), 400
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
     return model_to_dict(timeline_post)
 
@@ -70,12 +76,7 @@ def get_time_line_post():
     }
 
 @app.route('/api/timeline_post/del', methods=['DELETE'])
-def del_timeline_post():
-    name = request.form['name']
-    print(name)
-    email = request.form['email']
-    content = request.form['content']
-    TimelinePost.delete_instance(name=name, email=email, content=content)
+def del_timeline_post(id):
+    TimelinePost.delete_by_id(id)
     return "Deleted Successfully"
-
 
