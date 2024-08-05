@@ -28,8 +28,9 @@ jobs:
       - name: Install Dependencies
         run: python3-virtualenv/bin/pip install -r requirements.txt
 
+      - name: Make test Executable
+        run: chmod +x run_test.sh
+
       - name: Run Tests
-        run: |
-          git update-index --chmod=+x ./run_test.sh
-          ./run_test.sh
+        run: run_test.sh
       
