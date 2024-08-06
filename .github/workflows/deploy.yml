@@ -29,4 +29,6 @@ jobs:
           SSH_IP: ${{ secrets.SSH_IP }}
 
       - name: Print project root directory
-        run: ssh -v my-vps '~/redeploy.sh'
+        run: |
+          ssh -v my-vps '~/redeploy.sh'
+          docker-compose ps
