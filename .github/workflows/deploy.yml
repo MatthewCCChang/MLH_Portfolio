@@ -30,7 +30,7 @@ jobs:
 
       - name: Print project root directory
         run: |
-          ssh -v my-vps '~/redeploy.sh && cd ${{ secrets.PROJECT_ROOT }} && docker-compose ps && curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"'
+          ssh -v my-vps '~/redeploy.sh && cd ${{ secrets.PROJECT_ROOT }} && docker compose ps && curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"'
 
       - name: Failure Check
         if: ${{ failure() }}
