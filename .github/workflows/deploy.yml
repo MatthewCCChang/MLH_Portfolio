@@ -31,4 +31,5 @@ jobs:
       - name: Print project root directory
         run: |
           ssh -v my-vps '~/redeploy.sh'
-          docker-compose ps
+          cd ${{ secrets.PROJECT_ROOT }}
+          docker compose ps
