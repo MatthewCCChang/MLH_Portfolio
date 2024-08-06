@@ -28,5 +28,8 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_IP: ${{ secrets.SSH_IP }}
 
+      - name: Other ssh method
+        run: ssh root@159.223.198.1 -i ~/.ssh/deploy-key.pem -o StrictHostChecking=no
+
       - name: Print project root directory
         run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
