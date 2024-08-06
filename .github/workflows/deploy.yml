@@ -22,7 +22,6 @@ jobs:
             User $SSH_USER
             IdentityFile ~/.ssh/deploy-key.pem
             StrictHostKeyChecking no
-          ls -la ~/.ssh
           END
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
