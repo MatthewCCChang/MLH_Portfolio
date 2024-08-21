@@ -112,5 +112,5 @@ class AppTestCase(unittest.TestCase):
 
 	def test_health(self):
 		response = self.client.post('/health')
-		# print(response)
+		print(response)
 		assert response.status_code == 200
