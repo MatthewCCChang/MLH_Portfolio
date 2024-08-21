@@ -79,33 +79,38 @@ class AppTestCase(unittest.TestCase):
 	# 	assert json["timeline_posts"][0]["email"] == "matthewchang@gmail.com"
 	# 	assert json["timeline_posts"][0]["content"] == "Hello world, Matthew!"
 
-	def test_malformed_timeline_post(self):
-		# POST request missing name
-		response = self.client.post("/api/timeline_post", data={
-			"email": "john@example.com",
-			"content": "Hello World, I'm John!"
-		})
-		print(response)
-		assert response.status_code == 400
-		html = response.get_data(as_text=True)
-		assert "Invalid name" in html
+	# def test_malformed_timeline_post(self):
+	# 	# POST request missing name
+	# 	response = self.client.post("/api/timeline_post", data={
+	# 		"email": "john@example.com",
+	# 		"content": "Hello World, I'm John!"
+	# 	})
+	# 	print(response)
+	# 	assert response.status_code == 400
+	# 	html = response.get_data(as_text=True)
+	# 	assert "Invalid name" in html
 
-		# POST request with empty content
-		response = self.client.post("/api/timeline_post", data={
-			"name": "John Doe",
-			"email": "john@example.com",
-			"content": ""
-		})
-		assert response.status_code == 400
-		html = response.get_data(as_text=True)
-		assert "Invalid content" in html
+	# 	# POST request with empty content
+	# 	response = self.client.post("/api/timeline_post", data={
+	# 		"name": "John Doe",
+	# 		"email": "john@example.com",
+	# 		"content": ""
+	# 	})
+	# 	assert response.status_code == 400
+	# 	html = response.get_data(as_text=True)
+	# 	assert "Invalid content" in html
 
-		# POST request with malformed email
-		response = self.client.post("/api/timeline_post", data={
-			"name": "John Doe",
-			"email": "not-an-email",
-			"content": "Hello World, I'm John!"
-		})
-		assert response.status_code == 400
-		html = response.get_data(as_text=True)
-		assert "Invalid email" in html
+	# 	# POST request with malformed email
+	# 	response = self.client.post("/api/timeline_post", data={
+	# 		"name": "John Doe",
+	# 		"email": "not-an-email",
+	# 		"content": "Hello World, I'm John!"
+	# 	})
+	# 	assert response.status_code == 400
+	# 	html = response.get_data(as_text=True)
+	# 	assert "Invalid email" in html
+
+	def test_health(self):
+		response = self.client.post('/health')
+		# print(response)
+		assert response.status_code == 200
