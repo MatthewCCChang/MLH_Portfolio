@@ -80,3 +80,9 @@ def del_timeline_post(id):
     TimelinePost.delete_by_id(id)
     return "Deleted Successfully"
 
+@app.route('/health', methods=['POST'])
+def test_web_health():
+     timeline_post = TimelinePost.create(name="Health Check", email="testing@gmail.com", content="This is a test")
+    #  print(timeline_post)
+     return render_template('timeline.html',title="Timeline")
+
